@@ -5,16 +5,16 @@ Check out Advent Of Code Here: https://adventofcode.com/
 ## Install Dependencies
 
 ```bash
-npm install
+yarn
 ```
 
 ## Run
 
 ```bash
-npm start <day>
+yarn start <day>
 ```
 
 ## Run All Days
 ```bash
-npm run all
+yarn all
 ```
