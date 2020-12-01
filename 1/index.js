@@ -14,27 +14,31 @@ console.log("Part 1:");
 const savedEntries = {};
 for (const entry of entries){
     savedEntries[entry] = true;
-    if (savedEntries[2020 - entry]){
-        console.log(entry * (2020-entry));
-        break;
-    }
 }
+
+function findEntriesSumTotal(total){
+    for (const entry in savedEntries){
+        if (savedEntries[total - entry]){
+            return [entry, total - entry];
+        }
+    }
+    return [];
+}
+
+function product(...numbers){
+    return numbers.reduce((total, curr)=> total * curr, 1);
+}
+
+console.log(product(...findEntriesSumTotal(2020)));
 
 // Part 2
 
 console.log("Part 2:");
 
-let completed = false;
-for (const entry of entries){
-    for (const entry1 of entries){
-        for (const entry2 of entries){
-            if (entry + entry1 + entry2 === 2020){
-                console.log(entry * entry1 * entry2);
-                completed = true;
-            }
-            if (completed) break;
-        }
-        if (completed) break;
+for (const entry in savedEntries){
+    const matches = findEntriesSumTotal(2020 - entry);
+    if (matches.length){
+        console.log(product(...matches, entry));
+        break;
     }
-    if (completed) break;
 }
