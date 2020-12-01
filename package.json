@@ -4,7 +4,7 @@
     "description": "Advent Of Code Solutions",
     "scripts": {
       "start": "babel-node",
-      "all": "for i in `seq 1 1`; do echo Day $i && npm start --silent $i && echo '\n'; done"
+      "all": "for i in `seq 1 1`; do echo Day $i && yarn --silent start $i && echo '\n'; done"
     },
     "author": "David Margolin",
     "devDependencies": {
