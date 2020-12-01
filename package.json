@@ -1,0 +1,16 @@
+{
+    "name": "advent2019",
+    "version": "1.0.0",
+    "description": "Advent Of Code Solutions",
+    "scripts": {
+      "start": "babel-node",
+      "all": "for i in `seq 1 6`; do echo Day $i && npm start --silent $i && echo '\n'; done"
+    },
+    "author": "David Margolin",
+    "devDependencies": {
+      "@babel/core": "^7.7.4",
+      "@babel/node": "^7.7.4",
+      "@babel/preset-env": "^7.7.4"
+    }
+  }
+  
