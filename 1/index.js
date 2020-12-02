@@ -11,14 +11,14 @@ const entries = textByLine.map(entry => parseInt(entry));
 
 console.log("Part 1:");
 
-const savedEntries = {};
+const savedEntries = new Set();
 for (const entry of entries){
-    savedEntries[entry] = true;
+    savedEntries.add(entry);
 }
 
 function findEntriesSumTotal(total){
-    for (const entry in savedEntries){
-        if (savedEntries[total - entry]){
+    for (const entry of savedEntries){
+        if (savedEntries.has(total - entry)){
             return [entry, total - entry];
         }
     }
@@ -35,7 +35,7 @@ console.log(product(...findEntriesSumTotal(2020)));
 
 console.log("Part 2:");
 
-for (const entry in savedEntries){
+for (const entry of savedEntries){
     const matches = findEntriesSumTotal(2020 - entry);
     if (matches.length){
         console.log(product(...matches, entry));
