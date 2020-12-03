@@ -23,9 +23,9 @@ const entries = textByLine.map(entry => {
 console.log("Part 1:");
 
 const totalValid = entries.reduce((total, curr) => {
-    const {password, min, max , char} = curr;
-    const charCount = password.split(char).length-1;
-    if (charCount >= min && charCount <= max){
+    const { password, min, max, char } = curr;
+    const charCount = password.split(char).length - 1;
+    if (charCount >= min && charCount <= max) {
         return total + 1;
     }
     return total;
@@ -38,8 +38,8 @@ console.log(totalValid)
 console.log("Part 2:");
 
 const totalValid2 = entries.reduce((total, curr) => {
-    const {password, min, max , char} = curr;
-    if (password[min-1] === char ^ password[max-1] === char){
+    const { password, min, max, char } = curr;
+    if (password[min - 1] === char ^ password[max - 1] === char) {
         return total + 1;
     }
     return total;
