@@ -19,7 +19,7 @@ const passportList = textByLine.map(line =>
 
 const reqFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
 
-const validPassports = passportList.filter((passport) => !reqFields.some(field => !(field in passport)));
+const validPassports = passportList.filter((passport) => reqFields.every(field => field in passport));
 
 console.log(validPassports.length);
 
@@ -37,9 +37,9 @@ const fieldValidation = {
     "iyr": value => value >= 2010 && value <= 2020,
     "eyr": value => value >= 2020 && value <= 2030 && value.length === 4,
     "hgt": value => (value.slice(-2) === "cm" && value.slice(0, -2) >= 150 && value.slice(0, -2) <= 193) || (value.slice(-2) === "in" && value.slice(0, -2) >= 59 && value.slice(0, -2) <= 76),
-    "hcl": value => value[0] === "#" && value.length === 7 && !value.slice(1).split("").some(value => ![...DIGITS, ...A_TO_F].includes(value)),
+    "hcl": value => value[0] === "#" && value.length === 7 && value.slice(1).split("").every(value => [...DIGITS, ...A_TO_F].includes(value)),
     "ecl": value => EYE_COLORS.includes(value),
-    "pid": value => value.length === 9 && !value.split("").some(value => !DIGITS.includes(value)),
+    "pid": value => value.length === 9 && value.split("").every(value => DIGITS.includes(value)),
 }
 
 const approvedPassports = validPassports.filter(passport => !Object.keys(passport).some(field => field in fieldValidation && !fieldValidation[field](passport[field])));
