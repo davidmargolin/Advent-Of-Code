@@ -11,10 +11,7 @@ const entries = textByLine.map(entry => parseInt(entry));
 
 console.log("Part 1:");
 
-const savedEntries = new Set();
-for (const entry of entries) {
-    savedEntries.add(entry);
-}
+const savedEntries = new Set(entries);
 
 function findEntriesSumTotal(total) {
     for (const entry of savedEntries) {
