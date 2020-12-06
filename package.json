@@ -1,17 +1,16 @@
 {
-    "name": "advent2019",
-    "version": "1.0.0",
-    "description": "Advent Of Code Solutions",
-    "scripts": {
-      "start": "babel-node",
-      "all": "for i in `seq 1 5`; do echo Day $i && yarn --silent start $i && echo '\n'; done"
-    },
-    "author": "David Margolin",
-    "devDependencies": {
-      "@babel/core": "^7.7.4",
-      "@babel/node": "^7.7.4",
-      "@babel/preset-env": "^7.7.4"
-    },
-    "license": "Apache-2.0"
-  }
-  
+  "name": "advent2020",
+  "version": "1.0.0",
+  "description": "Advent Of Code Solutions",
+  "scripts": {
+    "start": "babel-node",
+    "all": "for i in `seq 1 6`; do echo '\nDay' $i && yarn --silent start $i; done"
+  },
+  "author": "David Margolin",
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4"
+  },
+  "license": "Apache-2.0"
+}
