@@ -10,7 +10,7 @@ const textByGroup = text.split("\n\n");
 console.log("Part 1:");
 
 const totalAnswers = textByGroup.reduce((total, curr) => {
-    const letters = new Set(curr.split("\n").join("").split(""));
+    const letters = new Set(curr.split("\n").join(""));
     return total + letters.size;
 }, 0)
 
@@ -21,7 +21,7 @@ console.log(totalAnswers);
 console.log("Part 2:");
 
 const totalOverlappingAnswers = textByGroup.reduce((total, curr) => {
-    const [overlapping, ...otherAnswers] = curr.split("\n").map(line => new Set(line.split("")));
+    const [overlapping, ...otherAnswers] = curr.split("\n").map(line => new Set(line));
     otherAnswers.forEach(answers => {
         overlapping.forEach(overlap => {
             if (!answers.has(overlap)) {
