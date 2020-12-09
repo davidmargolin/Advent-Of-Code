@@ -25,13 +25,11 @@ let leftIndex = 0;
 let rightIndex = 0;
 while (total != notSumOfPrevious) {
     if (total > notSumOfPrevious) {
+        total -= textByLine[leftIndex];
         leftIndex++;
     } else {
+        total += textByLine[rightIndex];
         rightIndex++;
-    }
-    total = 0;
-    for (let i = leftIndex; i <= rightIndex; i++) {
-        total += textByLine[i];
     }
 }
 
