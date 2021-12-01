@@ -1,10 +1,9 @@
 {
-  "name": "advent2020",
+  "name": "advent2021",
   "version": "1.0.0",
   "description": "Advent Of Code Solutions",
   "scripts": {
-    "start": "babel-node",
-    "all": "for day in `seq 1 12`; do echo '\nDay' $day && yarn --silent start $day; done"
+    "start": "babel-node"
   },
   "author": "David Margolin",
   "devDependencies": {
