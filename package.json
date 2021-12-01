@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Advent Of Code Solutions",
   "scripts": {
-    "start": "babel-node"
+    "start": "babel-node",
+    "all": "for day in `seq 1 1`; do echo '\nDay' $day && yarn --silent start $day; done"
   },
   "author": "David Margolin",
   "devDependencies": {
