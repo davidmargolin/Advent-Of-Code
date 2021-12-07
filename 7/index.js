@@ -13,25 +13,32 @@ const positions = text.split(",").map(t => parseInt(t));
 const min = Math.min(...positions);
 const max = Math.max(...positions);
 
-const options = [];
+let minCost = Infinity;
 for (let i = min; i <= max; i++) {
-    options.push(positions.reduce((acc, curr) => acc + Math.abs(curr-i), 0));
+    const fuel = positions.reduce((acc, curr) => acc + Math.abs(curr - i), 0);
+    minCost = Math.min(minCost, fuel);
 }
 
-console.log(Math.min(...options));
+console.log(minCost);
 
 // Part 2
 
 console.log("Part 2:");
 
+const costCache = {};
+
 function cost(steps) {
     if (steps === 0) return 0;
-    return cost(steps - 1) + steps;
+    if (steps in costCache) return costCache[steps];
+    const res = cost(steps - 1) + steps;
+    costCache[steps] = res;
+    return res;
 }
 
-const p2Options = [];
+minCost = Infinity;
 for (let i = min; i <= max; i++) {
-    p2Options.push(positions.reduce((acc, curr) => acc + cost(Math.abs(curr-i)), 0));
+    const fuel = positions.reduce((acc, curr) => acc + cost(Math.abs(curr - i)), 0);
+    minCost = Math.min(minCost, fuel);
 }
 
-console.log(Math.min(...p2Options));
+console.log(minCost);
