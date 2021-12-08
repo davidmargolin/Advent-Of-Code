@@ -39,7 +39,7 @@ const nums = parsedSignal.map(({ patternNums, outNums }) => {
         options.delete(pattern);
     }
 
-    // 6 overlaps with segments in 1 only once.
+    // 6 overlaps with only a single segment from 1
     const sixSegments = [...options].find(pattern =>
         pattern.length == 6 &&
         pattern.split("").filter(patternSeg => knownNums[1].split("").includes(patternSeg)).length === 1
@@ -50,34 +50,35 @@ const nums = parsedSignal.map(({ patternNums, outNums }) => {
     // all segments in 5 overlap with segments in 6
     const fiveSegments = [...options].find(pattern =>
         pattern.length === 5 &&
-        pattern.split("").filter(patternSeg => knownNums[6].split("").includes(patternSeg)).length === 5
+        pattern.split("").every(patternSeg => knownNums[6].split("").includes(patternSeg))
     );
     knownNums[5] = fiveSegments.split("").sort().join("");
     options.delete(fiveSegments);
 
-    // three segments in 2 overlap with segments in 5
-    const twoSegments = [...options].find(num =>
-        num.split("").filter(seg => knownNums[5].split("").includes(seg)).length === 3
-    );
-    knownNums[2] = twoSegments.split("").sort().join("");
-    options.delete(twoSegments);
-
     // all segments in 5 overlap with segments in 9
-    const nineSegments = [...options].find(num =>
-        num.length === 6 &&
-        num.split("").filter(seg => knownNums[5].split("").includes(seg)).length === 5
+    const nineSegments = [...options].find(pattern =>
+        pattern.length === 6 &&
+        knownNums[5].split("").every(seg => pattern.split("").includes(seg))
     );
     knownNums[9] = nineSegments.split("").sort().join("");
     options.delete(nineSegments);
 
+    // all segments in 3 overlap with segments in 9
+    const threeSegments = [...options].find(pattern =>
+        pattern.length === 5 &&
+        pattern.split("").every(seg => knownNums[9].split("").includes(seg))
+    );
+    knownNums[3] = threeSegments.split("").sort().join("");
+    options.delete(threeSegments);
+
     // 0 is the remaining six segment number
-    const zeroSegments = [...options].find(num => num.length === 6);
+    const zeroSegments = [...options].find(pattern => pattern.length === 6);
     knownNums[0] = zeroSegments.split("").sort().join("");
     options.delete(zeroSegments);
 
-    // 3 is the last remaining option
-    const threeSegments = [...options].pop();
-    knownNums[3] = threeSegments.split("").sort().join("");
+    // 2 is the last remaining option
+    const twoSegments = [...options].pop();
+    knownNums[2] = twoSegments.split("").sort().join("");
 
     const segments = knownNums.reduce((segs, currPattern, i) => {
         segs[currPattern] = i;
