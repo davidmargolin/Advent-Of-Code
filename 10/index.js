@@ -42,13 +42,6 @@ console.log(points);
 
 console.log("Part 2:");
 
-const autocompletePointsMap = {
-    ")": 1,
-    "]": 2,
-    "}": 3,
-    ">": 4
-};
-
 const scores = [];
 textByLine.forEach(line => {
     const stack = [];
@@ -64,7 +57,7 @@ textByLine.forEach(line => {
     if (!corruptedLine) {
         const linePoints = stack.reverse().reduce((total, char) => {
             total *= 5;
-            total += autocompletePointsMap[pairs[char]];
+            total += Object.keys(pairs).indexOf(char) + 1;
             return total;
         }, 0);
         scores.push(linePoints);
