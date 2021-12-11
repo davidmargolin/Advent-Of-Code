@@ -14,12 +14,12 @@ const grid = textByLine.map(line => line.split("").map(c => parseInt(c)));
 const directions = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]];
 
 function flash(x, y) {
-    grid[y][x] = -1;
+    grid[y][x] = 0;
     directions.forEach(([xDelta, yDelta]) => {
         const newY = y + yDelta;
         const newX = x + xDelta;
         if (newY >= 0 && newY < grid.length && newX >= 0 && newX < grid[0].length) {
-            if (grid[newY][newX] != -1) {
+            if (grid[newY][newX] !== 0) {
                 grid[newY][newX]++;
             }
         }
@@ -48,14 +48,6 @@ function step() {
         }
         if (newFlashes === 0) {
             break;
-        }
-    }
-
-    for (let y = 0; y < grid.length; y++) {
-        for (let x = 0; x < grid[0].length; x++) {
-            if (grid[y][x] === -1) {
-                grid[y][x] = 0;
-            }
         }
     }
 
