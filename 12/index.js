@@ -10,29 +10,31 @@ const textByLine = text.split("\n");
 console.log("Part 1:");
 
 const edges = textByLine.reduce((allEdges, line) => {
-    const [a, b] = line.split("-");
-    if (!(a in allEdges)) {
-        allEdges[a] = [];
-    }
-    if (!(b in allEdges)) {
-        allEdges[b] = [];
-    }
+    const nodes = line.split("-");
+    nodes.filter(node => !(node in allEdges)).forEach(node => {
+        allEdges[node] = [];
+    });
+    const [a, b] = nodes;
     allEdges[a].push(b);
     allEdges[b].push(a);
     return allEdges;
 }, {})
 
-function pathsToEnd(current, visited) {
+function pathsToEnd(current, visited, allowSecondSmallCaveVisit = false) {
     if (current === "end") return 1;
+
     visited.push(current);
 
-    const visitedSet = new Set(visited);
+    const uniqueVisits = new Set(visited);
 
     const paths = edges[current].filter(next => {
-        return !visitedSet.has(next) || !(next === next.toLowerCase());
+        if (next === "start") return false;
+        return !uniqueVisits.has(next) || next !== next.toLowerCase() || allowSecondSmallCaveVisit;
     }).reduce((pathsCount, next) => {
-        return pathsCount + pathsToEnd(next, [...visited]);
+        const canRevisitSmallCave = allowSecondSmallCaveVisit && (!uniqueVisits.has(next) || next != next.toLowerCase());
+        return pathsCount + pathsToEnd(next, [...visited], canRevisitSmallCave);
     }, 0);
+
     return paths;
 }
 
@@ -42,27 +44,4 @@ console.log(pathsToEnd("start", []));
 
 console.log("Part 2:");
 
-function p2PathsToEnd(current, visited) {
-    if (current === "end") return 1;
-
-    visited.push(current);
-
-    let hasMultiSmallCaveVisits = false;
-    const uniqueVisits = new Set();
-    visited.forEach(v => {
-        if (uniqueVisits.has(v) && v === v.toLowerCase()) {
-            hasMultiSmallCaveVisits = true;
-        }
-        uniqueVisits.add(v);
-    });
-
-    const paths = edges[current].filter(next => {
-        return next !== "start" && (!uniqueVisits.has(next) || !(next === next.toLowerCase()) || !hasMultiSmallCaveVisits);
-    }).reduce((pathsCount, next) => {
-        return pathsCount + p2PathsToEnd(next, [...visited]);
-    }, 0);
-
-    return paths;
-}
-
-console.log(p2PathsToEnd("start", []));
+console.log(pathsToEnd("start", [], true));
