@@ -1,8 +1,9 @@
 import fs from "fs";
+import path from "path";
 
 // parse input
 
-const text = fs.readFileSync("./2/input.txt", { encoding: "utf-8" });
+const text = fs.readFileSync(path.resolve(__dirname, './input.txt'), { encoding: "utf-8" });
 const textByLine = text.split("\n");
 
 // Part 1
