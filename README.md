@@ -1,4 +1,4 @@
-# Advent Of Code 2021 Solutions (in JavaScript)
+# Advent Of Code 2022 Solutions (in JavaScript)
 
 Check out Advent Of Code Here: https://adventofcode.com/
 
