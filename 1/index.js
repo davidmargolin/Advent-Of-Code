@@ -4,33 +4,36 @@ import path from "path";
 // parse input
 
 const text = fs.readFileSync(path.resolve(__dirname, './input.txt'), { encoding: "utf-8" });
-const textByLine = text.split("\n");
+const textByEmptyLine = text.split("\n\n");
 
 // Part 1
 
-const entries = textByLine.map(entry => parseInt(entry));
-
 console.log("Part 1:");
 
-function countIncrease(nums) {
-    let count = 0;
-    for (let i = 0; i < nums.length - 1; i++) {
-        if (nums[i + 1] > nums[i]) {
-            count++;
-        }
-    }
-    return count;
+function sum(nums) {
+    return nums.reduce((prev, curr) => prev + curr, 0);
 }
 
-console.log(countIncrease(entries));
+const caloriesListByElf = textByEmptyLine.map(caloriesText => caloriesText.split("\n").map(stringNum => Number(stringNum)));
+
+const maxCalories = caloriesListByElf.reduce((max, curr) => {
+    const sumForElf = sum(curr);
+    return Math.max(sumForElf, max);
+}, 0);
+
+console.log(maxCalories);
 
 // Part 2
 
 console.log("Part 2:");
 
-const trioSums = [];
-for (let i = 0; i < entries.length - 2; i++) {
-    trioSums.push(entries[i] + entries[i + 1] + entries[i + 2]);
+function top3Nums(nums) {
+    return nums.sort().reverse().slice(0, 3);
 }
 
-console.log(countIncrease(trioSums));
+const top3MaxCalories = caloriesListByElf.reduce((top3, curr) => {
+    const sumForElf = sum(curr);
+    return top3Nums([...top3, sumForElf]);
+}, []);
+
+console.log(sum(top3MaxCalories));
