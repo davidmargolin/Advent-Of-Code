@@ -14,7 +14,7 @@ function sum(nums) {
     return nums.reduce((prev, curr) => prev + curr, 0);
 }
 
-const caloriesListByElf = textByEmptyLine.map(caloriesText => caloriesText.split("\n").map(stringNum => Number(stringNum)));
+const caloriesListByElf = textByEmptyLine.map(caloriesText => caloriesText.split("\n").map(Number));
 
 const maxCalories = caloriesListByElf.reduce((max, curr) => {
     const sumForElf = sum(curr);
