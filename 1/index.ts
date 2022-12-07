@@ -10,7 +10,7 @@ const textByEmptyLine = text.split('\n\n')
 
 console.log('Part 1:')
 
-function sum (nums) {
+function sum (nums: number[]): number {
   return nums.reduce((prev, curr) => prev + curr, 0)
 }
 
@@ -27,7 +27,7 @@ console.log(maxCalories)
 
 console.log('Part 2:')
 
-function top3Nums (nums) {
+function top3Nums (nums: number[]): number[] {
   return nums.sort().reverse().slice(0, 3)
 }
 

@@ -11,7 +11,13 @@ console.log('Part 1:')
 
 const [stackText, instructionsText] = text.split('\n\n')
 
-const instructions = instructionsText.split('\n').map(line => {
+interface Instruction {
+  move: number
+  from: string
+  to: string
+}
+
+const instructions: Instruction[] = instructionsText.split('\n').map(line => {
   const segments = line.split(' ')
   return {
     move: Number(segments[1]),
@@ -31,18 +37,20 @@ const rotatedStackRows = [...new Array(stackRows[0].length)].map((_, rowIndex) =
 // Filter out rows that don't start with an integer. Trim empty fields.
 const stackRowsCleaned = rotatedStackRows.filter(row => Number(row[0]) !== 0).map(row => row.join('').trim().split(''))
 
+interface StackIndex { [key: string]: string[] }
+
 // Generate a crate stack index.
-const stack = stackRowsCleaned.reduce((index, curr) => {
+const stack = stackRowsCleaned.reduce<StackIndex>((index, curr) => {
   const [key, ...value] = curr
   index[key] = value
   return index
 }, {})
 
-function textTopOfStack (stack) {
+function textTopOfStack (stack: StackIndex): string {
   return Object.values(stack).reduce((out, curr) => out + curr[curr.length - 1], '')
 }
 
-function executeCrateMover (stack, instructions) {
+function executeCrateMover (stack: StackIndex, instructions: Instruction[]): string {
   const stackCopy = JSON.parse(JSON.stringify(stack))
   instructions.forEach(({ move, from, to }) => {
     let moveCount = move
@@ -60,7 +68,7 @@ console.log(executeCrateMover(stack, instructions))
 
 console.log('Part 2:')
 
-function executeCrateMover9001 (stack, instructions) {
+function executeCrateMover9001 (stack: StackIndex, instructions: Instruction[]): string {
   const stackCopy = JSON.parse(JSON.stringify(stack))
   instructions.forEach(({ move, from, to }) => {
     stackCopy[to].push(...stackCopy[from].splice(stackCopy[from].length - move, move))

@@ -6,4 +6,11 @@ overrides: []
 parserOptions:
   ecmaVersion: latest
   sourceType: module
-rules: {}
+  project: ./tsconfig.json
+rules:
+  '@typescript-eslint/require-array-sort-compare':
+    - 'off'
+  '@typescript-eslint/no-non-null-assertion':
+    - 'off'
+  '@typescript-eslint/no-unused-vars':
+    - warn

@@ -10,7 +10,16 @@ const textByLine = text.split('\n')
 
 console.log('Part 1:')
 
-const sections = textByLine.map(line => {
+interface Range {
+  start: number
+  end: number
+}
+interface Section {
+  a: Range
+  b: Range
+}
+
+const sections: Section[] = textByLine.map(line => {
   const [a, b] = line.split(',').map(section => {
     const [start, end] = section.split('-').map(Number)
     return { start, end }
@@ -18,7 +27,7 @@ const sections = textByLine.map(line => {
   return { a, b }
 })
 
-function sectionsAreOverlapping (A, B) {
+function sectionsAreOverlapping (A: Range, B: Range): boolean {
   if (A.start <= B.start && A.end >= B.end) {
     return true
   }
@@ -41,7 +50,7 @@ console.log(overlapCount)
 
 console.log('Part 2:')
 
-function sectionsAreIntersecting (A, B) {
+function sectionsAreIntersecting (A: Range, B: Range): boolean {
   if (A.start >= B.start && A.start <= B.end) {
     return true
   }

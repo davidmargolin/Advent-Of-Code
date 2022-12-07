@@ -10,30 +10,36 @@ const textByLine = text.split('\n')
 
 console.log('Part 1:')
 
-const playMap = {
+type Hand = 'A' | 'B' | 'C'
+interface Play {
+  opponent: Hand
+  me: Hand
+}
+
+const playMap: { [key: string]: Hand } = {
   X: 'A',
   Y: 'B',
   Z: 'C'
 }
 
-const plays = textByLine.map(text => {
+const plays: Play[] = textByLine.map(text => {
   const [opponent, me] = text.split(' ')
-  return { opponent, me: playMap[me] }
+  return { opponent: opponent as Hand, me: playMap[me] }
 })
 
-const winMap = {
+const winMap: { [key in Hand]: Hand } = {
   A: 'B',
   B: 'C',
   C: 'A'
 }
 
-const pointsMap = {
+const pointsMap: { [key in Hand]: number } = {
   A: 1,
   B: 2,
   C: 3
 }
 
-function calcScore (plays) {
+function calcScore (plays: Play[]): number {
   return plays.reduce((prev, { opponent, me }) => {
     if (opponent === me) {
       return prev + pointsMap[me] + 3
@@ -51,14 +57,14 @@ console.log(calcScore(plays))
 
 console.log('Part 2:')
 
-const loseMap = {
+const loseMap: { [key in Hand]: Hand } = {
   B: 'A',
   C: 'B',
   A: 'C'
 }
 
 const playsWithExpectation = textByLine.map(text => {
-  const [opponent, expectation] = text.split(' ')
+  const [opponent, expectation] = text.split(' ') as [Hand, string]
   switch (expectation) {
     case 'X':
       return { opponent, me: loseMap[opponent] }

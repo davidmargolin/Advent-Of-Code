@@ -11,45 +11,48 @@ const textByLine = text.split('\n')
 console.log('Part 1:')
 
 class File {
-  constructor (name, size) {
+  name: string
+  size: number
+  constructor (name: string, size: number) {
     this.name = name
     this.size = size
   }
 }
 
 class Directory {
-  children = []
-  files = []
-  size = undefined
+  name: string
+  parent: Directory | undefined
+  children: Directory[] = []
+  files: File[] = []
+  size: number = 0
 
-  constructor (name, parent) {
+  constructor (name: string, parent?: Directory) {
     this.name = name
     this.parent = parent
-    this.size = 0
   }
 
-  addFile (file) {
+  addFile (file: File): void {
     this.files.push(file)
     this.addSize(file.size)
   }
 
-  addChild (child) {
+  addChild (child: Directory): void {
     this.children.push(child)
   }
 
-  visitChild (name) {
+  visitChild (name: string): Directory | undefined {
     return this.children.find(child => child.name === name)
   }
 
-  addSize (size) {
+  addSize (size: number): void {
     this.size += size
-    if (this.parent) this.parent.addSize(size)
+    if (this.parent != null) this.parent.addSize(size)
   }
 }
 
-function generateDirectory (instructions) {
-  const root = new Directory('/', null)
-  let currentDir
+function generateDirectory (instructions: string[]): Directory {
+  const root = new Directory('/')
+  let currentDir: Directory
   instructions.forEach((line) => {
     if (line.startsWith('$ cd ')) {
       const newDir = line.slice(5)
@@ -58,10 +61,10 @@ function generateDirectory (instructions) {
           currentDir = root
           return
         case '..':
-          currentDir = currentDir.parent
+          currentDir = currentDir.parent!
           return
         default:
-          currentDir = currentDir.visitChild(newDir)
+          currentDir = currentDir.visitChild(newDir)!
           return
       }
     }
@@ -81,7 +84,7 @@ function generateDirectory (instructions) {
   return root
 }
 
-function sumDirsSmallerThanSize (node, size) {
+function sumDirsSmallerThanSize (node: Directory, size: number): number {
   const sumSmallChildDirs = node.children.reduce((total, dir) => {
     return total + sumDirsSmallerThanSize(dir, size)
   }, 0)
@@ -99,7 +102,7 @@ console.log(sumDirsSmallerThanSize(root, 100000))
 
 console.log('Part 2:')
 
-function minDeletableDir (node, deleteSize) {
+function minDeletableDir (node: Directory, deleteSize: number): number {
   if (node.size < deleteSize) {
     return Infinity
   }

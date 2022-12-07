@@ -18,10 +18,10 @@ const rucksacks = textByLine.map(line => {
 })
 
 const sharedItems = rucksacks.map(({ firstCompartment, secondCompartment }) => {
-  return firstCompartment.find(item => secondCompartment.includes(item))
+  return firstCompartment.find(item => secondCompartment.includes(item))!
 })
 
-function prioritySum (items) {
+function prioritySum (items: string[]): number {
   return items.reduce((prev, curr) => {
     if (curr.toUpperCase() === curr) {
       return prev + curr.charCodeAt(0) - 'A'.charCodeAt(0) + 27
@@ -36,18 +36,18 @@ console.log(prioritySum(sharedItems))
 
 console.log('Part 2:')
 
-function getRucksacks (lines, groupSize) {
+function getRucksacks (lines: string[], groupSize: number): Array<Array<Set<string>>> {
   const rucksacks = new Array(lines.length / groupSize).fill([])
   return rucksacks.map((_, index) =>
     lines.slice(groupSize * index, groupSize * (index + 1)).map(items => new Set(items.split('')))
   )
 }
 
-function intersectionOfSets (A, B) {
+function intersectionOfSets (A: Set<string>, B: Set<string>): Set<string> {
   return new Set([...A].filter(item => B.has(item)))
 }
 
-function getSharedItem (compartments) {
+function getSharedItem (compartments: Array<Set<string>>): string {
   const sharedItems = compartments.reduce(intersectionOfSets, compartments[0])
   return sharedItems.keys().next().value
 }
