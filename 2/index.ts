@@ -10,44 +10,45 @@ const textByLine = text.split('\n')
 
 console.log('Part 1:')
 
-type Hand = 'A' | 'B' | 'C'
+type Hand = 'Rock' | 'Paper' | 'Scissors'
+
+const handMap: { [key: string]: Hand } = {
+  X: 'Rock',
+  Y: 'Paper',
+  Z: 'Scissors',
+  A: 'Rock',
+  B: 'Paper',
+  C: 'Scissors'
+}
+
 interface Play {
   opponent: Hand
   me: Hand
 }
 
-const playMap: { [key: string]: Hand } = {
-  X: 'A',
-  Y: 'B',
-  Z: 'C'
-}
-
 const plays: Play[] = textByLine.map(text => {
   const [opponent, me] = text.split(' ')
-  return { opponent: opponent as Hand, me: playMap[me] }
+  return { opponent: handMap[opponent], me: handMap[me] }
 })
 
-const winMap: { [key in Hand]: Hand } = {
-  A: 'B',
-  B: 'C',
-  C: 'A'
-}
-
-const pointsMap: { [key in Hand]: number } = {
-  A: 1,
-  B: 2,
-  C: 3
+const gameMap: { [key in Hand]: { beatBy: Hand, beats: Hand, points: number } } = {
+  Rock: { beatBy: 'Paper', beats: 'Scissors', points: 1 },
+  Paper: { beatBy: 'Scissors', beats: 'Rock', points: 2 },
+  Scissors: { beatBy: 'Rock', beats: 'Paper', points: 3 }
 }
 
 function calcScore (plays: Play[]): number {
   return plays.reduce((prev, { opponent, me }) => {
+    // Tie
     if (opponent === me) {
-      return prev + pointsMap[me] + 3
+      return prev + gameMap[me].points + 3
     }
-    if (winMap[opponent] === me) {
-      return prev + pointsMap[me] + 6
+    // Win
+    if (gameMap[opponent].beatBy === me) {
+      return prev + gameMap[me].points + 6
     }
-    return prev + pointsMap[me]
+    // Lose
+    return prev + gameMap[me].points
   }, 0)
 }
 
@@ -57,22 +58,20 @@ console.log(calcScore(plays))
 
 console.log('Part 2:')
 
-const loseMap: { [key in Hand]: Hand } = {
-  B: 'A',
-  C: 'B',
-  A: 'C'
-}
-
 const playsWithExpectation = textByLine.map(text => {
   const [opponent, expectation] = text.split(' ') as [Hand, string]
+  const opponentHand = handMap[opponent]
   switch (expectation) {
     case 'X':
-      return { opponent, me: loseMap[opponent] }
+      // Win
+      return { opponent: opponentHand, me: gameMap[opponentHand].beats }
     case 'Y':
-      return { opponent, me: opponent }
+      // Tie
+      return { opponent: opponentHand, me: opponentHand }
     case 'Z':
     default:
-      return { opponent, me: winMap[opponent] }
+      // Lose
+      return { opponent: opponentHand, me: gameMap[opponentHand].beatBy }
   }
 })
 
