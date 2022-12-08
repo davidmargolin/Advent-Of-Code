@@ -26,14 +26,14 @@ function treeIsVisibleFromDirection (treesGrid: number[][], treeX: number, treeY
   return true
 }
 
-let total = 0
-for (let y = 0; y < treesGrid.length; y++) {
-  for (let x = 0; x < treesGrid[0].length; x++) {
+const total = treesGrid.reduce((total, treesRow, y) => {
+  return total + treesRow.reduce((total, _, x) => {
     if (directions.some(direction => treeIsVisibleFromDirection(treesGrid, x, y, direction))) {
-      total += 1
+      return total + 1
     }
-  }
-}
+    return total
+  }, 0)
+}, 0)
 
 console.log(total)
 
@@ -54,11 +54,11 @@ function treeScore (treesGrid: number[][], treeX: number, treeY: number, dir: Di
   return count
 }
 
-const scenicScores = JSON.parse(JSON.stringify(treesGrid))
-for (let y = 0; y < treesGrid.length; y++) {
-  for (let x = 0; x < treesGrid[0].length; x++) {
+const scenicScores = treesGrid.reduce((scenicScores, row, y) => {
+  return row.reduce((scenicScores, _, x) => {
     scenicScores[y][x] = directions.reduce((total, dir) => total * treeScore(treesGrid, x, y, dir), 1)
-  }
-}
+    return scenicScores
+  }, scenicScores)
+}, JSON.parse(JSON.stringify(treesGrid)))
 
 console.log(Math.max(...scenicScores.flat()))
